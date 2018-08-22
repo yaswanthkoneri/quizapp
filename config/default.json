@@ -1,4 +1,5 @@
 {
     "port":"3000",
-    "mongodbString":"mongodb://127.0.0.1:27017/quizapp"
+    "mongodbString":"mongodb://127.0.0.1:27017/quizapp",
+    "jwtSecret":"quizapp"
 }
