@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+var config = require('config');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -26,6 +28,19 @@ app.use('/users', usersRouter);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+//Connecting to mongodb database
+function connect(){
+  mongoose.connect(config.get('mongodbString'),{useNewUrlParser: true}).then(
+    () => {
+    var p = config.get("port");
+    console.log(`Connection to Mongodb Successfull Running at port ${p}`)},
+    err => { return err }
+  );
+  }
+  connect()
+  mongoose.connection.on('close', connect)
+  mongoose.connection.on('error', console.error.bind(console, 'connection error:'))
 
 // error handler
 app.use(function(err, req, res, next) {
